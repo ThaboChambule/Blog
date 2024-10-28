@@ -4,7 +4,7 @@ import Header from "./header";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./layout";
 import IndexPage from "./pages/IndexPage";
-import LoginPage from "./pages/LoginPage"
+import LoginPage from "./pages/LoginPag"
 
 function App() {
   return (

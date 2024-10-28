@@ -3,11 +3,12 @@ import {useState} from 'react';
 export default function RegisterPage() {
     const [username,setUsername]=useState('')
     const [password,setPassword]=useState('')
-    function register(ev){
+    async function register(ev){
         ev.preventDefault() //it prevents html page from redirecting
-        fetch('http://localhost:4000',{
+        await fetch('http://localhost:8080/register',{
             method:'POST',
-            body: JSON.stringify({username,password})
+            body: JSON.stringify({username,password}),
+            headers:{'Content-Type':'application/json'}
         })
     }
 
@@ -21,7 +22,7 @@ export default function RegisterPage() {
       <input type="password" 
       placeholder="password"
       value={password}
-      onchange={ev => setPassword(ev.target.value)}
+      onChange={ev => setPassword(ev.target.value)}
       />
       <button>Register</button>
     </form>

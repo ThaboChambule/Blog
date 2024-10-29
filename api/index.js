@@ -2,7 +2,11 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const user = require("./models/user");
+const bcrypt = require('bcryptjs'); //This is encryption
 const app = express();
+
+const salt = bcrypt.genSaltSync(10);
+
 
 //Middleware
 app.use(cors());
@@ -15,7 +19,10 @@ mongoose.connect(
 app.post("/register", async (req, res) => {
   const { username, password } = req.body;
   try{
-  const userDoc = await user.create({ username, password });
+  const userDoc = await user.create({ 
+    username,
+     password:bcrypt.hashSync(password,salt),
+    });
   res.json(userDoc);
   } catch(e){
     res.status(400).json(e);

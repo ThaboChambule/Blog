@@ -13,6 +13,7 @@ const secret = "ljsdljfsfslfsfslfsnfsnl";
 //Middleware
 app.use(cors({credentials:true,origin:'http://localhost:3000'}));
 app.use(express.json());
+app.use()
 
 mongoose.connect(
   "mongodb+srv://thabochambule1:5pMldKexTOvUqMO2@cluster0.qjlen.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
@@ -47,6 +48,9 @@ jwt.sign({username, id:userDoc. id}, secret, {}, (err,token)=>{
 } else{
     res.status(400).json('wrong credentials')
 }
+})
+app.get('/profile', (req,res)=>{
+
 })
 
 

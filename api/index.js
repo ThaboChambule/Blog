@@ -14,3 +14,7 @@ res.json('test ok2')
 
 })
 app.listen(8080)
+//mongodb+srv://thabochambule1:5pMldKexTOvUqMO2@cluster0.qjlen.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+
+
+

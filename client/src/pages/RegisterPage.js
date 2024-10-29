@@ -5,11 +5,16 @@ export default function RegisterPage() {
     const [password,setPassword]=useState('')
     async function register(ev){
         ev.preventDefault() //it prevents html page from redirecting
-        await fetch('http://localhost:8080/register',{
+       const response = await fetch('http://localhost:8080/register',{
             method:'POST',
             body: JSON.stringify({username,password}),
             headers:{'Content-Type':'application/json'}
         })
+        if(response.status === 200){
+            alert('registration successful')
+        }else{
+            alert('registration failed')
+        }
     }
 
   return (

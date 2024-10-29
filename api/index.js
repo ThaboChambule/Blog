@@ -1,20 +1,26 @@
-const express = require('express');
-const cors = require('cors');
+const express = require("express");
+const cors = require("cors");
+const mongoose = require("mongoose");
+const user = require("./models/user");
 const app = express();
 
-app.use(cors())
+//Middleware
+app.use(cors());
 app.use(express.json());
 
-app.post('/register', (req,res)=>{
-const {username,password} = req.body
-res.json({requestData:{username,password}})
+mongoose.connect(
+  "mongodb+srv://thabochambule1:5pMldKexTOvUqMO2@cluster0.qjlen.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+);
 
+app.post("/register", async (req, res) => {
+  const { username, password } = req.body;
+  try{
+  const userDoc = await user.create({ username, password });
+  res.json(userDoc);
+  } catch(e){
+    res.status(400).json(e);
+  }
+ 
+});
 
-res.json('test ok2')
-
-})
-app.listen(8080)
-//mongodb+srv://thabochambule1:5pMldKexTOvUqMO2@cluster0.qjlen.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-
-
-
+app.listen(8080);

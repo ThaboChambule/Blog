@@ -29,5 +29,17 @@ app.post("/register", async (req, res) => {
   }
  
 });
+app.post('/login', async(req,res)=>{
+const{username,password} = req.body //grab username and password from request body
+const userDoc = await user.findOne({username});
+const passOK = bcrypt.compareSync(password, userDoc.password);
+if(passOK){
+    //logged in
+    
+} else{
+    res.status(400).json('wrong credentials')
+}
+})
+
 
 app.listen(8080);

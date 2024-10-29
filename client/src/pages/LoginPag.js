@@ -8,7 +8,7 @@ export default function LoginPage(){
     const [redirect,setRedirect] = useState(false)
    async function login(ev){
      ev.preventDefault();
-     const response = await  fetch('http://localhost:8080/login',{
+     const response = await fetch('http://localhost:8080/login',{
         method: 'POST',
         body: JSON.stringify({username,password}),
         headers: {'Content-Type':'application/json'},
@@ -22,7 +22,7 @@ export default function LoginPage(){
         }
         if (redirect){
             return <Navigate to={'/'}/>
-       
+        }
         
 
 return(

@@ -42,6 +42,8 @@ if(passOK){
 jwt.sign({username, id:userDoc. id}, secret, {}, (err,token)=>{
     if(err) throw err;
     res.cookie('token', token).json('ok');
+      id:userDoc._id,
+      username
 
 } )
     //res.json();

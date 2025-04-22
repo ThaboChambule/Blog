@@ -1,7 +1,3 @@
-Sure! Here's a detailed description for your blog project on GitHub:
-
----
-
 ## Blog Application
 
 Welcome to the Blog Application project! This is a full-stack blog application built using React for the frontend, Node.js and Express for the backend, and MongoDB for the database. The project is managed with Yarn for package management.

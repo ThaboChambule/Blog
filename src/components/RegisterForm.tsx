@@ -1,38 +1,50 @@
 "use client";
 
-import { useState, useContext, FormEvent } from "react";
+import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { UserContext } from "./UserContext";
 
-export default function LoginForm() {
+export default function RegisterForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const { setUserInfo } = useContext(UserContext);
   const router = useRouter();
 
   async function handleSubmit(ev: FormEvent<HTMLFormElement>) {
     ev.preventDefault();
     setError("");
+
+    // Validate passwords match
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    // Validate password length
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long");
+      return;
+    }
+
     setLoading(true);
 
     try {
-      const response = await fetch("/api/login", {
+      const response = await fetch("/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
-        credentials: "include",
       });
 
+      const data = await response.json();
+
       if (response.ok) {
-        const userInfo = await response.json();
-        setUserInfo(userInfo);
-        router.push("/");
+        // Registration successful
+        router.push("/login?registered=true");
       } else {
-        const data = await response.json();
-        setError(data.error || "Login failed. Please check your credentials.");
+        // Registration failed
+        setError(data.error || "Registration failed. Please try again.");
       }
     } catch (err) {
       setError("Something went wrong. Please try again.");
@@ -60,11 +72,15 @@ export default function LoginForm() {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           className="w-full px-3 py-2 border rounded-md"
+          minLength={4}
           required
         />
+        <p className="text-xs text-gray-500 mt-1">
+          Must be at least 4 characters long
+        </p>
       </div>
 
-      <div className="mb-6">
+      <div className="mb-4">
         <label htmlFor="password" className="block mb-1 font-medium">
           Password
         </label>
@@ -73,6 +89,24 @@ export default function LoginForm() {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          className="w-full px-3 py-2 border rounded-md"
+          minLength={6}
+          required
+        />
+        <p className="text-xs text-gray-500 mt-1">
+          Must be at least 6 characters long
+        </p>
+      </div>
+
+      <div className="mb-6">
+        <label htmlFor="confirmPassword" className="block mb-1 font-medium">
+          Confirm Password
+        </label>
+        <input
+          id="confirmPassword"
+          type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
           className="w-full px-3 py-2 border rounded-md"
           required
         />
@@ -84,10 +118,10 @@ export default function LoginForm() {
           className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-md"
           disabled={loading}
         >
-          {loading ? "Logging in..." : "Login"}
+          {loading ? "Creating account..." : "Register"}
         </button>
-        <Link href="/register" className="text-blue-600 hover:underline">
-          Register instead
+        <Link href="/login" className="text-blue-600 hover:underline">
+          Login instead
         </Link>
       </div>
     </form>

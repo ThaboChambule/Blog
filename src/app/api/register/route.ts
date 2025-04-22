@@ -1,12 +1,12 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { connectToDatabase } from '@/lib/db';
-import User from '@/models/User';
+import { NextRequest, NextResponse } from "next/server";
+import { connectToDatabase } from "@/lib/db";
+import User from "@/models/User";
 
 export async function POST(request: NextRequest) {
   try {
     await connectToDatabase();
     const { username, password } = await request.json();
-    
+
     // Validate input
     if (!username || !password) {
       return NextResponse.json(
@@ -26,16 +26,13 @@ export async function POST(request: NextRequest) {
 
     // Create new user
     const userDoc = await User.create({ username, password });
-    
+
     // Don't return password
     const { password: _, ...userWithoutPassword } = userDoc.toObject();
-    
+
     return NextResponse.json(userWithoutPassword, { status: 201 });
   } catch (error) {
-    console.error('Registration error:', error);
-    return NextResponse.json(
-      { error: "Error creating user" },
-      { status: 500 }
-    );
+    console.error("Registration error:", error);
+    return NextResponse.json({ error: "Error creating user" }, { status: 500 });
   }
 }
